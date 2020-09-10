@@ -1,3 +1,3 @@
 # GitHub Actions
 
-[semver](semver)
+[semver](action/semver)
