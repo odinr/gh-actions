@@ -1,1 +1,3 @@
-# action-semver-release
+# GitHub Actions
+
+[semver](semver)
