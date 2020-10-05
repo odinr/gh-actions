@@ -21,7 +21,7 @@ export const bump = (value: SemVer | string, type: ReleaseType, pre?: string): S
     }
 
     return parse([
-        prefix(current.version)||'v',
+        prefix(current.version),
         inc(current.version, type, pre)
     ].join(''));
 }
