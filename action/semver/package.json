@@ -1,5 +1,5 @@
 {
-  "name": "@equinor/action-semver",
+  "name": "@equinor/gh-action-semver",
   "private": true,
   "version": "1.0.0",
   "description": "",
