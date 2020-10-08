@@ -2,6 +2,7 @@
   "name": "root",
   "private": true,
   "devDependencies": {
+    "husky": "^4.3.0",
     "lerna": "^3.22.1"
   },
   "scripts": {
@@ -11,5 +12,10 @@
   },
   "dependencies": {
     "rimraf": "^3.0.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lerna run build && git add action/*/dist"
+    }
   }
 }

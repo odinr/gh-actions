@@ -19,7 +19,7 @@ exports.bump = (value, type, pre) => {
         throw Error(`invalid: missing prerelease identifier`);
     }
     return semver_1.parse([
-        exports.prefix(current.version),
+        exports.prefix(current.raw),
         semver_1.inc(current.version, type, pre)
     ].join(''));
 };
