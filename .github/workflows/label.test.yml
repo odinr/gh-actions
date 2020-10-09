@@ -1,0 +1,21 @@
+name: "Test labels"
+
+on:
+    workflow_dispatch:
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    # needs: check_branch
+    # if: ${{ needs.check_branch.outputs.type }}
+    if: ${{ !contains(github.event.head_commit.message, '[SKIP_CI]') && ( startsWith(github.head_ref, 'fix') || startsWith(github.head_ref, 'feat') ) }}
+    steps:
+      - name: Checkout PR
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+      - name: Setup Node
+        uses: actions/setup-node@v1
+      - name: Create version
+        id: version
+        uses: odinr/action-semver-release/action/label-pr@feat/label-pr

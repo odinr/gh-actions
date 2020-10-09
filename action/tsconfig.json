@@ -10,6 +10,7 @@
     "strict": true,
     "noImplicitAny": false,
     "esModuleInterop": true,
-    "removeComments": true
+    "removeComments": true,
+    "incremental": true,
   }
 }

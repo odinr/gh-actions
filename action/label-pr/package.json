@@ -1,0 +1,12 @@
+{
+  "name": "gh-action-label-pr",
+  "version": "1.0.0",
+  "description": "> TODO: description",
+  "author": "odin thomas rochmann <odin.rochmann@gmail.com>",
+  "license": "ISC",
+  "main": "lib/label-pr.js",
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1",
+    "build": "tsc -b"
+  }
+}
