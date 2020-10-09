@@ -6,9 +6,11 @@
     "lerna": "^3.22.1"
   },
   "scripts": {
-    "prebuild": "rimraf action/*/dist",
+    "clean": "lerna exec 'tsc -b --clean' && rimraf action/*/dist",
     "build": "lerna exec npm run build",
-    "install": "lerna bootstrap"
+    "build:clean": "npm run clean && npm run build",
+    "update": "npx lerna-update-wizard",
+    "postinstall": "lerna bootstrap"
   },
   "dependencies": {
     "rimraf": "^3.0.2"

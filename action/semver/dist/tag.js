@@ -35,8 +35,8 @@ const path_1 = require("path");
 exports.latestTag = () => __awaiter(void 0, void 0, void 0, function* () {
     const client = github_1.getOctokit(core.getInput('token', { required: true }));
     const { data: { tag_name } } = yield client.repos.getLatestRelease({
-        repo: core.getInput('repo') || github_1.context.repo.repo,
-        owner: core.getInput('owner') || github_1.context.repo.owner,
+        repo: core.getInput('repo', { required: true }),
+        owner: core.getInput('owner', { required: true }),
     });
     return tag_name;
 });

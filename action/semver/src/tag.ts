@@ -1,12 +1,12 @@
 import * as core from '@actions/core';
-import { context, getOctokit } from '@actions/github';
+import { getOctokit } from '@actions/github';
 import { resolve } from 'path';
 
 export const latestTag = async () => {
     const client = getOctokit(core.getInput('token', { required: true }));
     const { data: { tag_name } } = await client.repos.getLatestRelease({
-        repo: core.getInput('repo') || context.repo.repo,
-        owner: core.getInput('owner') || context.repo.owner,
+        repo: core.getInput('repo', { required: true }),
+        owner: core.getInput('owner', { required: true }),
     });
     return tag_name;
 }

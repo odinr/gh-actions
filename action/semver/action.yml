@@ -11,8 +11,10 @@ inputs:
     default: ${{ github.token }}
   owner:
     description: repo owner (used for 'version.latest')
+    default: ${{ github.repo.owner }}
   repo:
     description: repo repo (used for 'version.latest')
+    default: ${{ github.repo.repo }}
 
   version:
     description: name of tag/ref, version, 'latest' or 'current'
