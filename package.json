@@ -2,8 +2,11 @@
   "name": "root",
   "private": true,
   "devDependencies": {
+    "@commitlint/cli": "^11.0.0",
+    "@commitlint/config-conventional": "^11.0.0",
     "husky": "^4.3.0",
-    "lerna": "^3.22.1"
+    "lerna": "^3.22.1",
+    "rimraf": "^3.0.2"
   },
   "scripts": {
     "clean": "lerna exec 'tsc -b --clean' && rimraf action/*/dist",
@@ -12,11 +15,9 @@
     "update": "npx lerna-update-wizard",
     "postinstall": "lerna bootstrap"
   },
-  "dependencies": {
-    "rimraf": "^3.0.2"
-  },
   "husky": {
     "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
       "pre-commit": "lerna run build && git add action/*/dist"
     }
   }
