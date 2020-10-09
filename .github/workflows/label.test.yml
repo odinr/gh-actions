@@ -17,4 +17,4 @@ jobs:
         uses: actions/setup-node@v1
       - name: Create version
         id: version
-        uses: odinr/action-semver-release/action/label-pr@feat/label-pr
+        uses: odinr/action-semver-release/action/label-pr@tree/feat/label-pr
