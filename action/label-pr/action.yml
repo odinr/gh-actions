@@ -1,0 +1,6 @@
+name: Conventional issue labeler
+description: Labels an issue from conventional commits
+
+runs:
+  using: 'node12'
+  main: 'dist/main.js'
