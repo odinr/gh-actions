@@ -19,7 +19,7 @@
   "husky": {
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-push": "lerna run build && git add action/*/dist && git commit -m'build: default' --no-verify"
+      "pre-commit": "lerna run build && git add action/*/dist"
     }
   },
   "config": {
