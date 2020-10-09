@@ -17,4 +17,4 @@ jobs:
         uses: actions/setup-node@v1
       - name: Create version
         id: version
-        uses: $action/label-pr
+        uses: $/action/label-pr
