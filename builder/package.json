@@ -1,0 +1,21 @@
+{
+  "name": "@equinor/gh-action-builder",
+  "version": "1.0.0",
+  "description": "",
+  "bin": {
+    "gh-action-builder": "bin/index.js"
+  },
+  "scripts": {
+    "build": "tsc"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@rollup/plugin-commonjs": "^15.1.0",
+    "@rollup/plugin-node-resolve": "^9.0.0",
+    "@rollup/plugin-typescript": "^6.0.0",
+    "rollup": "^2.29.0",
+    "typescript": "^4.0.3"
+  }
+}
