@@ -5,15 +5,15 @@ inputs:
   token:
     description: github access token (used for 'version.latest')
     default: ${{ github.token }}
-  owner:
-    description: repo owner (used for 'version.latest')
-    default: ${{ github.repository_owner }}
   repo:
     description: repo repo (used for 'version.latest')
     default: ${{ github.repository }}
+  owner:
+    description: repo owner (used for 'version.latest')
+    default: ${{ github.repository_owner }}
   pull_number:
     description: Pull request number
-    default: ${{ github.number }}
+    default: ${{ github.event.number }}
 
 runs:
   using: 'node12'
