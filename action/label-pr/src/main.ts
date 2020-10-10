@@ -1,6 +1,18 @@
 import * as core from '@actions/core';
 import { getOctokit } from '@actions/github';
 
+const rules = {
+  enhancement: /^feat|^new/i,
+  bug: /^fix|^bug/i,
+  documentation: /^doc/i,
+  internal: /^refactor|^style/i,
+  breaking: /BREAKING CHANGE/gmi,
+}
+
+const gg = (msg: string) => {
+  Object.keys(rules).filter(label => !!msg.match(rules[label]))
+}
+
 const main = async () => {
   const client = getOctokit(core.getInput('token', { required: true }));
   const [owner, repo] = core.getInput('repository', { required: true }).split('/');
@@ -13,6 +25,7 @@ const main = async () => {
       response.data.forEach(commit => commits.push(commit.commit.message));
     }
     console.log(commits);
+    console.log(new Set([...commits.map(gg)]));
   } catch (error) {
     core.setFailed(error.message);
   }

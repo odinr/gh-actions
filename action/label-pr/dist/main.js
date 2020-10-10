@@ -37,6 +37,16 @@ var __asyncValues = (this && this.__asyncValues) || function (o) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const core = __importStar(require("@actions/core"));
 const github_1 = require("@actions/github");
+const rules = {
+    enhancement: /^feat|^new/i,
+    bug: /^fix|^bug/i,
+    documentation: /^doc/i,
+    internal: /^refactor|^style/i,
+    breaking: /BREAKING CHANGE/gmi,
+};
+const gg = (msg) => {
+    Object.keys(rules).filter(label => !!msg.match(rules[label]));
+};
 const main = () => __awaiter(void 0, void 0, void 0, function* () {
     var e_1, _a;
     const client = github_1.getOctokit(core.getInput('token', { required: true }));
@@ -60,6 +70,7 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
             finally { if (e_1) throw e_1.error; }
         }
         console.log(commits);
+        console.log(new Set([...commits.map(gg)]));
     }
     catch (error) {
         core.setFailed(error.message);
