@@ -15,8 +15,6 @@ const rules = {
 const match = (msg: string) => Object.keys(rules).filter(label => !!msg.match(rules[label]));
 const extract = (values: string[]) => [...new Set(values.reduce((cur: string[], val: string) => cur.concat(match(val)), []))]
 
-const test = "";
-
 const main = async () => {
   const client = getOctokit(core.getInput('token', { required: true }));
   const [owner, repo] = core.getInput('repository', { required: true }).split('/');
