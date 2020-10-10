@@ -48,8 +48,8 @@ const rules = {
 const match = (msg) => Object.keys(rules).filter(label => !!msg.match(rules[label]));
 const extract = (commits) => {
     const labels = commits.reduce((c, v) => {
-        const [_, message] = v.message.match(/(?:^revert[:]?) "(.*)"/gmi) || [];
-        console.log(_);
+        const [_, message] = v.message.match(/(?:^revert[:]?) \"(.*)\"/gmi) || [];
+        _ && console.log(_, message);
         if (!!message) {
             match(message).forEach(l => {
                 const i = c.lastIndexOf(l);
