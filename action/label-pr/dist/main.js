@@ -47,6 +47,7 @@ const rules = {
 };
 const match = (msg) => Object.keys(rules).filter(label => !!msg.match(rules[label]));
 const extract = (values) => [...new Set(values.reduce((cur, val) => cur.concat(match(val)), []))];
+const test = "";
 const main = () => __awaiter(void 0, void 0, void 0, function* () {
     var e_1, _a;
     const client = github_1.getOctokit(core.getInput('token', { required: true }));
