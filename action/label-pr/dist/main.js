@@ -58,7 +58,7 @@ const extract = (commits) => {
         }
         return c.concat(v.labels);
     }, []);
-    console.log(labels.length, commits.length);
+    console.log("TEST", labels.length, commits.length);
     return [...new Set(labels)];
 };
 const main = () => __awaiter(void 0, void 0, void 0, function* () {
@@ -82,7 +82,7 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
             }
             finally { if (e_1) throw e_1.error; }
         }
-        const labels = [...new Set(commits.reduce((c, v) => c.concat(v.labels), []))];
+        const labels = extract(commits);
     }
     catch (error) {
         core.setFailed(error.message);

@@ -25,7 +25,7 @@ const extract = (commits: CommitInfo[]) => {
     }
     return c.concat(v.labels);
   }, [] as string[]);
-  console.log(labels.length, commits.length);
+  console.log("TEST", labels.length, commits.length);
   return [...new Set(labels)];
 }
 
@@ -39,7 +39,7 @@ const main = async () => {
     for await (const response of client.paginate.iterator(client.pulls.listCommits, options)) {
       response.data.forEach(({ sha, commit: { message, url } }) => commits.push({ sha, message, url, labels: match(message) }));
     }
-    const labels = [...new Set(commits.reduce((c, v) => c.concat(v.labels), [] as string[]))];
+    const labels = extract(commits);
     // console.log(commits, labels);
   } catch (error) {
     core.setFailed(error.message);
