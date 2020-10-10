@@ -32,7 +32,7 @@ const core = __importStar(require("@actions/core"));
 const github_1 = require("@actions/github");
 const main = () => __awaiter(void 0, void 0, void 0, function* () {
     const client = github_1.getOctokit(core.getInput('token', { required: true }));
-    const [repo, owner] = core.getInput('repository', { required: true }).split('/');
+    const [owner, repo] = core.getInput('repository', { required: true }).split('/');
     const pull_number = +core.getInput('pull_number', { required: true });
     const options = { repo, owner, pull_number };
     console.log(options);
