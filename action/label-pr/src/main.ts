@@ -19,13 +19,14 @@ const extract = (commits: CommitInfo[]) => {
     if (!!message) {
       match(message).forEach(l => {
         const i = c.lastIndexOf(l);
+        console.log(message, c[i]);
         i > 0 && delete c[i];
       });
       return c;
     }
     return c.concat(v.labels);
   }, [] as string[]);
-  console.log("TEST", labels.length, commits.length);
+  console.log(labels, commits.map(v => v.labels));
   return [...new Set(labels)];
 }
 
