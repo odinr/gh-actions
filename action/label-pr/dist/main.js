@@ -45,20 +45,20 @@ const rules = {
     performance: /^perf/i,
     breaking: /BREAKING CHANGE/gmi,
 };
-const gg = (msg) => Object.keys(rules).filter(label => !!msg.match(rules[label]));
+const match = (msg) => Object.keys(rules).filter(label => !!msg.match(rules[label]));
+const extract = (values) => [...new Set(values.reduce((cur, val) => cur.concat(match(val)), []))];
 const main = () => __awaiter(void 0, void 0, void 0, function* () {
     var e_1, _a;
     const client = github_1.getOctokit(core.getInput('token', { required: true }));
     const [owner, repo] = core.getInput('repository', { required: true }).split('/');
     const pull_number = +core.getInput('pull_number', { required: true });
     const options = { repo, owner, pull_number };
-    console.log(options);
     try {
         const commits = [];
         try {
             for (var _b = __asyncValues(client.paginate.iterator(client.pulls.listCommits, options)), _c; _c = yield _b.next(), !_c.done;) {
                 const response = _c.value;
-                response.data.forEach(commit => commits.push(commit.commit.message));
+                response.data.forEach(({ commit: { message, url, tree: { sha } } }) => commits.push({ message, url, sha, labels: match(message) }));
             }
         }
         catch (e_1_1) { e_1 = { error: e_1_1 }; }
@@ -69,7 +69,6 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
             finally { if (e_1) throw e_1.error; }
         }
         console.log(commits);
-        console.log(new Set(...[...commits.map(gg)]));
     }
     catch (error) {
         core.setFailed(error.message);
