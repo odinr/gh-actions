@@ -7,10 +7,10 @@ inputs:
     default: ${{ github.token }}
   owner:
     description: repo owner (used for 'version.latest')
-    default: ${{ github.repo.owner }}
+    default: ${{ github.repository_owner }}
   repo:
     description: repo repo (used for 'version.latest')
-    default: ${{ github.repo.repo }}
+    default: ${{ github.repository }}
   pull_number:
     description: Pull request number
     default: ${{ github.number }}
