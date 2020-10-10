@@ -83,7 +83,6 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
             finally { if (e_1) throw e_1.error; }
         }
         const labels = [...new Set(commits.reduce((c, v) => c.concat(v.labels), []))];
-        console.log(commits, labels);
     }
     catch (error) {
         core.setFailed(error.message);

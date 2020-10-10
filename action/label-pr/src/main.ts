@@ -40,7 +40,7 @@ const main = async () => {
       response.data.forEach(({ sha, commit: { message, url } }) => commits.push({ sha, message, url, labels: match(message) }));
     }
     const labels = [...new Set(commits.reduce((c, v) => c.concat(v.labels), [] as string[]))];
-    console.log(commits, labels);
+    // console.log(commits, labels);
   } catch (error) {
     core.setFailed(error.message);
   }
