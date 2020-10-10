@@ -1,6 +1,20 @@
 name: Conventional issue labeler
 description: Labels an issue from conventional commits
 
+inputs:
+  token:
+    description: github access token (used for 'version.latest')
+    default: ${{ github.token }}
+  owner:
+    description: repo owner (used for 'version.latest')
+    default: ${{ github.repo.owner }}
+  repo:
+    description: repo repo (used for 'version.latest')
+    default: ${{ github.repo.repo }}
+  pull_number:
+    description: Pull request number
+    default: ${{ github.number }}
+
 runs:
   using: 'node12'
   main: 'dist/main.js'
