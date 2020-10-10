@@ -8,7 +8,10 @@ const main = async () => {
   const options = { repo, owner, pull_number };
   console.log(options);
   try {
-    const commits = await client.pulls.listCommits(options);
+    const commits: string[] = [];
+    for await (const response of client.paginate.iterator(client.pulls.listCommits, options)) {
+      response.data.forEach(commit => commits.push(commit.commit.message));
+    }
     console.log(commits);
   } catch (error) {
     core.setFailed(error.message);
