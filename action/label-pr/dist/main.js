@@ -69,7 +69,7 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
             finally { if (e_1) throw e_1.error; }
         }
         console.log(commits);
-        console.log(new Set([...commits.map(gg)]));
+        console.log(new Set(...[...commits.map(gg)]));
     }
     catch (error) {
         core.setFailed(error.message);

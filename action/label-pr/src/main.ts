@@ -24,7 +24,7 @@ const main = async () => {
       response.data.forEach(commit => commits.push(commit.commit.message));
     }
     console.log(commits);
-    console.log(new Set([...commits.map(gg)]));
+    console.log(new Set(...[...commits.map(gg)]));
   } catch (error) {
     core.setFailed(error.message);
   }
