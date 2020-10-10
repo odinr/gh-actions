@@ -16,7 +16,7 @@ const match = (msg: string) => Object.keys(rules).filter(label => !!msg.match(ru
 const extract = (commits: CommitInfo[]) => {
   const labels = commits.reduce((c, v) => {
     const [_, message] = v.message.match(/(?:^revert[:]?) "(.*)"/gmi) || [];
-    console.log(message);
+    console.log(_);
     if (!!message) {
       match(message).forEach(l => {
         const i = c.lastIndexOf(l);

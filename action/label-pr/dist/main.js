@@ -49,7 +49,7 @@ const match = (msg) => Object.keys(rules).filter(label => !!msg.match(rules[labe
 const extract = (commits) => {
     const labels = commits.reduce((c, v) => {
         const [_, message] = v.message.match(/(?:^revert[:]?) "(.*)"/gmi) || [];
-        console.log(message);
+        console.log(_);
         if (!!message) {
             match(message).forEach(l => {
                 const i = c.lastIndexOf(l);
