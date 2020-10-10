@@ -23,9 +23,10 @@ const main = async () => {
   try {
     const commits: { message: string, url: string, sha: string, labels: string[] }[] = [];
     for await (const response of client.paginate.iterator(client.pulls.listCommits, options)) {
-      response.data.forEach(({ commit: { message, url, tree: { sha } } }) => commits.push({ message, url, sha, labels: match(message) }));
+      response.data.forEach(({ sha, commit: { message, url } }) => commits.push({ sha, message, url, labels: match(message) }));
     }
-    console.log(commits);
+    const labels = [...new Set(commits.reduce((c, v) => c.concat(v.labels), [] as string[]))];
+    console.log(commits, labels);
   } catch (error) {
     core.setFailed(error.message);
   }

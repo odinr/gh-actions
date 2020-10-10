@@ -58,7 +58,7 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
         try {
             for (var _b = __asyncValues(client.paginate.iterator(client.pulls.listCommits, options)), _c; _c = yield _b.next(), !_c.done;) {
                 const response = _c.value;
-                response.data.forEach(({ commit: { message, url, tree: { sha } } }) => commits.push({ message, url, sha, labels: match(message) }));
+                response.data.forEach(({ sha, commit: { message, url } }) => commits.push({ sha, message, url, labels: match(message) }));
             }
         }
         catch (e_1_1) { e_1 = { error: e_1_1 }; }
@@ -68,7 +68,8 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
             }
             finally { if (e_1) throw e_1.error; }
         }
-        console.log(commits);
+        const labels = [...new Set(commits.reduce((c, v) => c.concat(v.labels), []))];
+        console.log(commits, labels);
     }
     catch (error) {
         core.setFailed(error.message);
