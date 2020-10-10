@@ -46,7 +46,21 @@ const rules = {
     breaking: /BREAKING CHANGE/gmi,
 };
 const match = (msg) => Object.keys(rules).filter(label => !!msg.match(rules[label]));
-const extract = (values) => [...new Set(values.reduce((cur, val) => cur.concat(match(val)), []))];
+const extract = (commits) => {
+    const labels = commits.reduce((c, v) => {
+        const [_, message] = v.message.match(/^revert.*"(.*)"/igm) || [];
+        if (!!message) {
+            match(message).forEach(l => {
+                const i = c.lastIndexOf(l);
+                i > 0 && delete c[i];
+            });
+            return c;
+        }
+        return c.concat(v.labels);
+    }, []);
+    console.log(labels.length, commits.length);
+    return [...new Set(labels)];
+};
 const main = () => __awaiter(void 0, void 0, void 0, function* () {
     var e_1, _a;
     const client = github_1.getOctokit(core.getInput('token', { required: true }));

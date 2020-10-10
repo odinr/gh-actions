@@ -1,7 +1,7 @@
 import * as core from '@actions/core';
 import { getOctokit } from '@actions/github';
 
-type CommitInfo = { message: string, url: string }
+type CommitInfo = { message: string, url: string, sha: string, labels: string[] }
 
 const rules = {
   enhancement: /^feat|^new/i,
@@ -13,7 +13,21 @@ const rules = {
 }
 
 const match = (msg: string) => Object.keys(rules).filter(label => !!msg.match(rules[label]));
-const extract = (values: string[]) => [...new Set(values.reduce((cur: string[], val: string) => cur.concat(match(val)), []))]
+const extract = (commits: CommitInfo[]) => {
+  const labels = commits.reduce((c, v) => {
+    const [_, message] = v.message.match(/^revert.*"(.*)"/igm) || [];
+    if (!!message) {
+      match(message).forEach(l => {
+        const i = c.lastIndexOf(l);
+        i > 0 && delete c[i];
+      });
+      return c;
+    }
+    return c.concat(v.labels);
+  }, [] as string[]);
+  console.log(labels.length, commits.length);
+  return [...new Set(labels)];
+}
 
 const main = async () => {
   const client = getOctokit(core.getInput('token', { required: true }));
@@ -21,7 +35,7 @@ const main = async () => {
   const pull_number = +core.getInput('pull_number', { required: true });
   const options = { repo, owner, pull_number };
   try {
-    const commits: { message: string, url: string, sha: string, labels: string[] }[] = [];
+    const commits: CommitInfo[] = [];
     for await (const response of client.paginate.iterator(client.pulls.listCommits, options)) {
       response.data.forEach(({ sha, commit: { message, url } }) => commits.push({ sha, message, url, labels: match(message) }));
     }
