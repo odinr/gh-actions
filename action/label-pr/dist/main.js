@@ -31,6 +31,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const core = __importStar(require("@actions/core"));
 const github_1 = require("@actions/github");
 const main = () => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(+core.getInput('pull_number', { required: true }));
     const client = github_1.getOctokit(core.getInput('token', { required: true }));
     const commits = yield client.pulls.listCommits({
         repo: core.getInput('repo', { required: true }),
