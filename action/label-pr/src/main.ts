@@ -10,9 +10,7 @@ const rules = {
   breaking: /BREAKING CHANGE/gmi,
 }
 
-const gg = (msg: string) => {
-  Object.keys(rules).filter(label => !!msg.match(rules[label]))
-}
+const gg = (msg: string) => Object.keys(rules).filter(label => !!msg.match(rules[label]));
 
 const main = async () => {
   const client = getOctokit(core.getInput('token', { required: true }));

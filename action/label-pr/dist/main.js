@@ -45,9 +45,7 @@ const rules = {
     performance: /^perf/i,
     breaking: /BREAKING CHANGE/gmi,
 };
-const gg = (msg) => {
-    Object.keys(rules).filter(label => !!msg.match(rules[label]));
-};
+const gg = (msg) => Object.keys(rules).filter(label => !!msg.match(rules[label]));
 const main = () => __awaiter(void 0, void 0, void 0, function* () {
     var e_1, _a;
     const client = github_1.getOctokit(core.getInput('token', { required: true }));
