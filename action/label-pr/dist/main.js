@@ -42,6 +42,7 @@ const rules = {
     bug: /^fix|^bug/i,
     documentation: /^doc/i,
     internal: /^refactor|^style/i,
+    performance: /^perf/i,
     breaking: /BREAKING CHANGE/gmi,
 };
 const gg = (msg) => {
