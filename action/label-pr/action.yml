@@ -15,6 +15,13 @@ inputs:
     description: Since commit
     default: ${{ github.event.before }}
 
+  update:
+    default: ${{ github.event.action == 'synchronize' }}
+
+  before:
+    default: ${{ github.event.before }}
+
+
 runs:
   using: 'node12'
   main: 'dist/main.js'

@@ -69,13 +69,20 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
     const client = github_1.getOctokit(core.getInput('token', { required: true }));
     const [owner, repo] = core.getInput('repository', { required: true }).split('/');
     const pull_number = +core.getInput('pull_number', { required: true });
-    const sha = +core.getInput('sha', { required: true });
+    const update = !!core.getInput('update');
+    const before = core.getInput('before');
     try {
         const commits = [];
         try {
-            for (var _b = __asyncValues(client.paginate.iterator(client.pulls.listCommits, { repo, owner, pull_number })), _c; _c = yield _b.next(), !_c.done;) {
+            fetch: for (var _b = __asyncValues(client.paginate.iterator(client.pulls.listCommits, { repo, owner, pull_number })), _c; _c = yield _b.next(), !_c.done;) {
                 const response = _c.value;
-                response.data.forEach(({ sha, commit: { message, url } }) => commits.push({ sha, message, url, labels: match(message) }));
+                for (const commit of response.data) {
+                    const { sha, commit: { message, url } } = commit;
+                    if (update && sha === before) {
+                        break fetch;
+                    }
+                    commits.push({ sha, message, url, labels: match(message) });
+                }
             }
         }
         catch (e_1_1) { e_1 = { error: e_1_1 }; }
