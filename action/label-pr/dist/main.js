@@ -90,4 +90,4 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
         core.setFailed(error.message);
     }
 });
-console.log(core.getInput('commits'));
+console.log("commits:", core.getInput('commits'));

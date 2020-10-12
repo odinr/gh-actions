@@ -47,5 +47,5 @@ const main = async () => {
     core.setFailed(error.message);
   }
 };
-console.log(core.getInput('commits'));
+console.log("commits:", core.getInput('commits'));
 // main();
