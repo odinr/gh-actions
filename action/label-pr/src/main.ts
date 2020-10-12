@@ -1,6 +1,6 @@
 import * as core from '@actions/core';
 
-import { client, repo, owner, pull_number }  from './inputs';
+import { client, repo, owner, pull_number } from './inputs';
 
 type CommitInfo = { message: string, url: string, sha: string, labels: string[] }
 const rules = {
@@ -66,7 +66,7 @@ const main = async () => {
       pull_number,
       body: log
     })
-    await client.issues.addLabels({
+    labels.length && await client.issues.addLabels({
       owner, repo, issue_number: pull_number, labels
     })
   } catch (error) {
