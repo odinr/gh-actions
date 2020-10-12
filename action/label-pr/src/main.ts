@@ -62,7 +62,7 @@ const main = async () => {
   try {
     const commits = await getCommits();
     const labels = extract(
-      update ? commits.slice(commits.findIndex(commit => commit.sha === before) + 1) : commits
+      update && false ? commits.slice(commits.findIndex(commit => commit.sha === before) + 1) : commits
     );
     const log = createLog(commits);
     await client.pulls.update({

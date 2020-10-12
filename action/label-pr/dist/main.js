@@ -103,7 +103,7 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
     const before = core.getInput('before');
     try {
         const commits = yield getCommits();
-        const labels = extract(update ? commits.slice(commits.findIndex(commit => commit.sha === before) + 1) : commits);
+        const labels = extract(update && false ? commits.slice(commits.findIndex(commit => commit.sha === before) + 1) : commits);
         const log = createLog(commits);
         yield client.pulls.update({
             owner, repo,
