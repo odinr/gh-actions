@@ -11,7 +11,7 @@ inputs:
   pull_number:
     description: Pull request number
     default: ${{ github.event.number }}
-  commits:
+  # before:
   #   description: Pull request number
   #   default: ${{ github.event.commits }}
 

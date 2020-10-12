@@ -47,7 +47,7 @@ const main = async () => {
     core.setFailed(error.message);
   }
 };
-console.log("commits:", core.getInput('commits'));
+// console.log("commits:", core.getInput('commits'));
 // @ts-ignore
 // console.log("event:", GITHUB_CONTEXT);
 // main();
