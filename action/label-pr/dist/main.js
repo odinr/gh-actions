@@ -70,7 +70,7 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
     const pull_number = +core.getInput('pull_number', { required: true });
     const sha = +core.getInput('sha', { required: true });
     const options = { repo, owner, pull_number, sha };
-    console.log(github_1.context);
+    console.log(github_1.context.action === 'synchronize');
     try {
         const commits = [];
         try {

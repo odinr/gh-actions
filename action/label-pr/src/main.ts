@@ -37,7 +37,7 @@ const main = async () => {
   const pull_number = +core.getInput('pull_number', { required: true });
   const sha = +core.getInput('sha', { required: true });
   const options = { repo, owner, pull_number, sha };
-  console.log(context);
+  console.log(context.action === 'synchronize');
   try {
     const commits: CommitInfo[] = [];
     for await (const response of client.paginate.iterator(client.pulls.listCommits, options)) {
