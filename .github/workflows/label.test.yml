@@ -20,3 +20,7 @@ jobs:
       - name: Create version
         id: version
         uses: ./action/label-pr
+        with:
+          commits: ${{ github.event.commits }}
+          before: ${{ github.event.before }}
+          after: ${{ github.event.after }}
