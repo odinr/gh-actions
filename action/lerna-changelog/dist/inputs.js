@@ -18,12 +18,11 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.repo = exports.owner = exports.client = exports.token = void 0;
+exports.repo = exports.client = exports.token = void 0;
 const core = __importStar(require("@actions/core"));
 const github_1 = require("@actions/github");
 exports.token = core.getInput('token', { required: true });
 exports.client = github_1.getOctokit(core.getInput('token', { required: true }));
-_a = core.getInput('repository', { required: true }).split('/'), exports.owner = _a[0], exports.repo = _a[1];
-exports.default = { client: exports.client, repo: exports.repo, owner: exports.owner, token: exports.token };
+exports.repo = core.getInput('repository', { required: true });
+exports.default = { client: exports.client, repo: exports.repo, token: exports.token };
