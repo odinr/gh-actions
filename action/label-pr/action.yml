@@ -1,0 +1,27 @@
+name: Conventional issue labeler
+description: Labels an issue from conventional commits
+
+inputs:
+  token:
+    description: github access token (used for 'version.latest')
+    default: ${{ github.token }}
+  repository:
+    description: repo repo (used for 'version.latest')
+    default: ${{ github.repository }}
+  pull_number:
+    description: Pull request number
+    default: ${{ github.event.number }}
+  sha:
+    description: Since commit
+    default: ${{ github.event.before }}
+
+  update:
+    default: ${{ github.event.action == 'synchronize' }}
+
+  before:
+    default: ${{ github.event.before }}
+
+
+runs:
+  using: 'node12'
+  main: 'dist/main.js'
