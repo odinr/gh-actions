@@ -18,6 +18,6 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v1
       - name: Create version
-        if: ${{ github.action != "synchronize" }}
+        if: ${{ github.event.action != "synchronize" }}
         id: version
         uses: ./action/label-pr
