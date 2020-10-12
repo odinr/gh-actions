@@ -110,8 +110,9 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
             pull_number,
             body: log
         });
-        github_1.context.payload.pull_request;
-        console.log(commits, labels, log);
+        yield client.issues.addLabels({
+            owner, repo, issue_number: pull_number, labels
+        });
     }
     catch (error) {
         core.setFailed(error.message);

@@ -70,8 +70,9 @@ const main = async () => {
       pull_number,
       body: log
     })
-    context.payload.pull_request
-    console.log(commits, labels, log);
+    await client.issues.addLabels({
+      owner, repo, issue_number: pull_number, labels
+    })
   } catch (error) {
     core.setFailed(error.message);
   }
