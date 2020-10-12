@@ -8,7 +8,7 @@ const main = async () => {
     const config = loadConfig({
       repo
     });
-    const result = new Changelog(config);
+    const result = new Changelog(config).createMarkdown();
     console.log(result);
   } catch (error) {
     console.error(error.message);

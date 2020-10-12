@@ -17,7 +17,7 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
         const config = configuration_1.load({
             repo: inputs_1.repo
         });
-        const result = new lerna_changelog_1.Changelog(config);
+        const result = new lerna_changelog_1.Changelog(config).createMarkdown();
         console.log(result);
     }
     catch (error) {
