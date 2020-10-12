@@ -62,7 +62,7 @@ const extract = (commits) => {
 const createLog = (commits) => {
     return Object.keys(rules).map(type => {
         const selection = commits.filter(commit => commit.labels.includes(type));
-        const messages = selection.map(commit => [`[#${commit.sha.slice(0, 7)}](${commit.sha})`, commit.message.replace(/^\w+[:]?\s?/, '')].join(' - '));
+        const messages = selection.map(commit => [`[#${commit.sha.slice(0, 7)}](${commit.url})`, commit.message.replace(/^\w+[:]?\s?/, '')].join(' - '));
         return messages.length ? `## ${emojis[type]} ${type}\n\n${messages.join("\n")}` : '';
     }).join("\n");
 };
