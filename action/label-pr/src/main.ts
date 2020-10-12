@@ -47,5 +47,5 @@ const main = async () => {
     core.setFailed(error.message);
   }
 };
-
-main();
+console.log(core.getInput('commits'));
+// main();
