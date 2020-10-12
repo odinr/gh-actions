@@ -12,8 +12,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const lerna_changelog_1 = require("lerna-changelog");
 const configuration_1 = require("lerna-changelog/lib/configuration");
 const main = () => __awaiter(void 0, void 0, void 0, function* () {
-    const config = configuration_1.load();
-    const result = new lerna_changelog_1.Changelog(config);
-    console.log(result);
+    try {
+        const config = configuration_1.load();
+        const result = new lerna_changelog_1.Changelog(config);
+        console.log(result);
+    }
+    catch (error) {
+        console.error(error.message);
+    }
 });
 main();

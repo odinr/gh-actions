@@ -1,4 +1,4 @@
-name: "Test labels"
+name: "Change Log"
 
 on:
   workflow_dispatch:
@@ -21,3 +21,5 @@ jobs:
       - name: Create version
         id: version
         uses: ./action/lerna-changelog
+        env:
+          GITHUB_AUTH: ${{ github.token }}
