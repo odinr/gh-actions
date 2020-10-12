@@ -89,7 +89,7 @@ const getCommits = () => __awaiter(void 0, void 0, void 0, function* () {
             }
             finally { if (e_1) throw e_1.error; }
         }
-        return update ? commits.slice(commits.findIndex(commit => commit.sha === before)) : commits;
+        return update ? commits.slice(commits.findIndex(commit => commit.sha === before) + 1) : commits;
     }
     catch (error) {
         throw Error(error.message);

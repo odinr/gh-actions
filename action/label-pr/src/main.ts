@@ -45,7 +45,7 @@ const getCommits = async (): Promise<CommitInfo[]> => {
         commits.push({ sha, message, url, labels: match(message) });
       }
     }
-    return update ? commits.slice(commits.findIndex(commit => commit.sha === before)) : commits;
+    return update ? commits.slice(commits.findIndex(commit => commit.sha === before) + 1) : commits;
   } catch (error) {
     throw Error(error.message);
   }
