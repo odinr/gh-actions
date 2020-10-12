@@ -96,12 +96,6 @@ const getCommits = () => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 const main = () => __awaiter(void 0, void 0, void 0, function* () {
-    const client = github_1.getOctokit(core.getInput('token', { required: true }));
-    const [owner, repo] = core.getInput('repository', { required: true }).split('/');
-    const pull_number = +core.getInput('pull_number', { required: true });
-    const update = !!core.getInput('update');
-    const before = core.getInput('before');
-    console.log(update, before, github_1.context);
     try {
         const commits = yield getCommits();
         const labels = extract(commits);

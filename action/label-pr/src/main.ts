@@ -52,12 +52,6 @@ const getCommits = async (): Promise<CommitInfo[]> => {
 }
 
 const main = async () => {
-  const client = getOctokit(core.getInput('token', { required: true }));
-  const [owner, repo] = core.getInput('repository', { required: true }).split('/');
-  const pull_number = +core.getInput('pull_number', { required: true });
-  const update = !!core.getInput('update');
-  const before = core.getInput('before');
-  console.log(update, before, context);
   try {
     const commits = await getCommits();
     const labels = extract(commits);
@@ -66,7 +60,5 @@ const main = async () => {
     core.setFailed(error.message);
   }
 };
-// console.log("commits:", core.getInput('commits'));
-// @ts-ignore
-// console.log("event:", GITHUB_CONTEXT);abcd
+
 main();
