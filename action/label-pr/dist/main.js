@@ -44,12 +44,30 @@ const rules = {
     documentation: /^doc/i,
     internal: /^refactor|^style/i,
     performance: /^perf/i,
-    breaking: /BREAKING CHANGE/gmi,
+    breaking: /^(?!revert).*BREAKING CHANGE/mi,
+};
+const emojis = {
+    enhancement: ':rocket',
+    bug: ':bug:',
+    documentation: ':ledger:',
+    internal: ':house:',
+    performance: ':chart_with_upwards_trend:',
+    breaking: ':bomb:',
 };
 const match = (msg) => Object.keys(rules).filter(label => !!msg.match(rules[label]));
 const extract = (commits) => {
     const labels = commits.reduce((c, v) => c.concat(v.labels), []);
     return [...new Set(labels)];
+};
+const createLog = (commits) => {
+    return Object.keys(rules).map(type => {
+        const selection = commits.filter(commit => commit.labels.includes(type));
+        const messages = selection.map(commit => commit.message.replace(/^\w+[:]?\s?^/, '') + `#[${commit.sha.slice(0, 7)}](${commit.sha})`);
+        return `
+      ##${emojis[type]} ${type}
+      ${messages.join("\n")}
+      `;
+    }).join("\n");
 };
 const getCommits = () => __awaiter(void 0, void 0, void 0, function* () {
     var e_1, _a;
@@ -81,12 +99,22 @@ const getCommits = () => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 const main = () => __awaiter(void 0, void 0, void 0, function* () {
+    const client = github_1.getOctokit(core.getInput('token', { required: true }));
+    const [owner, repo] = core.getInput('repository', { required: true }).split('/');
+    const pull_number = +core.getInput('pull_number', { required: true });
     const update = !!core.getInput('update');
     const before = core.getInput('before');
     try {
         const commits = yield getCommits();
         const labels = extract(update ? commits.slice(commits.findIndex(commit => commit.sha === before) + 1) : commits);
-        console.log(commits, labels);
+        const log = createLog(commits);
+        yield client.pulls.update({
+            owner, repo,
+            pull_number,
+            body: log
+        });
+        github_1.context.payload.pull_request;
+        console.log(commits, labels, log);
     }
     catch (error) {
         core.setFailed(error.message);

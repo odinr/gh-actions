@@ -9,13 +9,33 @@ const rules = {
   documentation: /^doc/i,
   internal: /^refactor|^style/i,
   performance: /^perf/i,
-  breaking: /BREAKING CHANGE/gmi,
+  breaking: /^(?!revert).*BREAKING CHANGE/mi,
+}
+
+const emojis = {
+  enhancement: ':rocket',
+  bug: ':bug:',
+  documentation: ':ledger:',
+  internal: ':house:',
+  performance: ':chart_with_upwards_trend:',
+  breaking: ':bomb:',
 }
 
 const match = (msg: string) => Object.keys(rules).filter(label => !!msg.match(rules[label]));
 const extract = (commits: CommitInfo[]) => {
   const labels = commits.reduce((c, v) => c.concat(v.labels), [] as string[]);
   return [...new Set(labels)];
+}
+
+const createLog = (commits: CommitInfo[]) => {
+  return Object.keys(rules).map(type => {
+    const selection = commits.filter(commit => commit.labels.includes(type));
+    const messages = selection.map(commit => commit.message.replace(/^\w+[:]?\s?^/, '') + `#[${commit.sha.slice(0, 7)}](${commit.sha})`)
+    return `
+      ##${emojis[type]} ${type}
+      ${messages.join("\n")}
+      `
+  }).join("\n")
 }
 
 const getCommits = async (): Promise<CommitInfo[]> => {
@@ -37,6 +57,9 @@ const getCommits = async (): Promise<CommitInfo[]> => {
 }
 
 const main = async () => {
+  const client = getOctokit(core.getInput('token', { required: true }));
+  const [owner, repo] = core.getInput('repository', { required: true }).split('/');
+  const pull_number = +core.getInput('pull_number', { required: true });
   const update = !!core.getInput('update');
   const before = core.getInput('before');
   try {
@@ -44,7 +67,14 @@ const main = async () => {
     const labels = extract(
       update ? commits.slice(commits.findIndex(commit => commit.sha === before) + 1) : commits
     );
-    console.log(commits, labels);
+    const log = createLog(commits);
+    await client.pulls.update({
+      owner, repo,
+      pull_number,
+      body: log
+    })
+    context.payload.pull_request
+    console.log(commits, labels, log);
   } catch (error) {
     core.setFailed(error.message);
   }
