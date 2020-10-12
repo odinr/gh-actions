@@ -7,7 +7,7 @@
 ```
 const labelPr = require('label-pr');
 
-test 1
+test 12
 
 // TODO: DEMONSTRATE API
 ```
