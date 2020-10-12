@@ -103,9 +103,9 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
             pull_number: inputs_1.pull_number,
             body: log
         });
-        yield inputs_1.client.issues.addLabels({
+        labels.length && (yield inputs_1.client.issues.addLabels({
             owner: inputs_1.owner, repo: inputs_1.repo, issue_number: inputs_1.pull_number, labels
-        });
+        }));
     }
     catch (error) {
         core.setFailed(error.message);
