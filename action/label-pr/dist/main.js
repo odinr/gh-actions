@@ -64,25 +64,20 @@ const extract = (commits) => {
     console.log(labels, commits.map(v => v.labels));
     return [...new Set(labels)];
 };
-const main = () => __awaiter(void 0, void 0, void 0, function* () {
+const getCommits = () => __awaiter(void 0, void 0, void 0, function* () {
     var e_1, _a;
     const client = github_1.getOctokit(core.getInput('token', { required: true }));
     const [owner, repo] = core.getInput('repository', { required: true }).split('/');
     const pull_number = +core.getInput('pull_number', { required: true });
     const update = !!core.getInput('update');
     const before = core.getInput('before');
-    console.log(update, before, github_1.context);
     try {
         const commits = [];
         try {
-            fetch: for (var _b = __asyncValues(client.paginate.iterator(client.pulls.listCommits, { repo, owner, pull_number })), _c; _c = yield _b.next(), !_c.done;) {
+            for (var _b = __asyncValues(client.paginate.iterator(client.pulls.listCommits, { repo, owner, pull_number })), _c; _c = yield _b.next(), !_c.done;) {
                 const response = _c.value;
                 for (const commit of response.data) {
                     const { sha, commit: { message, url } } = commit;
-                    console.log(sha);
-                    if (update && sha === before) {
-                        break fetch;
-                    }
                     commits.push({ sha, message, url, labels: match(message) });
                 }
             }
@@ -94,8 +89,23 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
             }
             finally { if (e_1) throw e_1.error; }
         }
+        return update ? commits.slice(commits.findIndex(commit => commit.sha === before)) : commits;
+    }
+    catch (error) {
+        throw Error(error.message);
+    }
+});
+const main = () => __awaiter(void 0, void 0, void 0, function* () {
+    const client = github_1.getOctokit(core.getInput('token', { required: true }));
+    const [owner, repo] = core.getInput('repository', { required: true }).split('/');
+    const pull_number = +core.getInput('pull_number', { required: true });
+    const update = !!core.getInput('update');
+    const before = core.getInput('before');
+    console.log(update, before, github_1.context);
+    try {
+        const commits = yield getCommits();
         const labels = extract(commits);
-        console.log(labels);
+        console.log(commits, labels);
     }
     catch (error) {
         core.setFailed(error.message);

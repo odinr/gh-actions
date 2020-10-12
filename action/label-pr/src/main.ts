@@ -31,6 +31,26 @@ const extract = (commits: CommitInfo[]) => {
   return [...new Set(labels)];
 }
 
+const getCommits = async (): Promise<CommitInfo[]> => {
+  const client = getOctokit(core.getInput('token', { required: true }));
+  const [owner, repo] = core.getInput('repository', { required: true }).split('/');
+  const pull_number = +core.getInput('pull_number', { required: true });
+  const update = !!core.getInput('update');
+  const before = core.getInput('before');
+  try {
+    const commits: CommitInfo[] = [];
+    for await (const response of client.paginate.iterator(client.pulls.listCommits, { repo, owner, pull_number })) {
+      for (const commit of response.data) {
+        const { sha, commit: { message, url } } = commit;
+        commits.push({ sha, message, url, labels: match(message) });
+      }
+    }
+    return update ? commits.slice(commits.findIndex(commit => commit.sha === before)) : commits;
+  } catch (error) {
+    throw Error(error.message);
+  }
+}
+
 const main = async () => {
   const client = getOctokit(core.getInput('token', { required: true }));
   const [owner, repo] = core.getInput('repository', { required: true }).split('/');
@@ -39,20 +59,9 @@ const main = async () => {
   const before = core.getInput('before');
   console.log(update, before, context);
   try {
-    const commits: CommitInfo[] = [];
-    fetch:
-    for await (const response of client.paginate.iterator(client.pulls.listCommits, { repo, owner, pull_number })) {
-      for(const commit of response.data){
-        const { sha, commit: { message, url } } = commit;
-        console.log(sha);
-        if(update && sha === before){
-          break fetch;
-        }
-        commits.push({ sha, message, url, labels: match(message) });
-      }
-    }
+    const commits = await getCommits();
     const labels = extract(commits);
-    console.log(labels);
+    console.log(commits, labels);
   } catch (error) {
     core.setFailed(error.message);
   }
