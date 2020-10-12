@@ -35,7 +35,8 @@ const main = async () => {
   const client = getOctokit(core.getInput('token', { required: true }));
   const [owner, repo] = core.getInput('repository', { required: true }).split('/');
   const pull_number = +core.getInput('pull_number', { required: true });
-  const options = { repo, owner, pull_number };
+  const sha = +core.getInput('sha', { required: true });
+  const options = { repo, owner, pull_number, sha };
   try {
     const commits: CommitInfo[] = [];
     for await (const response of client.paginate.iterator(client.pulls.listCommits, options)) {

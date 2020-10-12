@@ -11,9 +11,9 @@ inputs:
   pull_number:
     description: Pull request number
     default: ${{ github.event.number }}
-  # before:
+  sha:
   #   description: Pull request number
-  #   default: ${{ github.event.commits }}
+    default: ${{ github.event.before }}
 
 runs:
   using: 'node12'
