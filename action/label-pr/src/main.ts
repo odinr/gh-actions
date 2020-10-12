@@ -1,8 +1,9 @@
 import * as core from '@actions/core';
 import { context, getOctokit } from '@actions/github';
 
+import { client, repo, owner, pull_number }  from './inputs';
+
 type CommitInfo = { message: string, url: string, sha: string, labels: string[] }
-const gg = 'opened'// 'reopened';
 const rules = {
   enhancement: /^feat|^new/i,
   bug: /^fix|^bug/i,
@@ -36,9 +37,6 @@ const createLog = (commits: CommitInfo[]) => {
 }
 
 const getCommits = async (): Promise<CommitInfo[]> => {
-  const client = getOctokit(core.getInput('token', { required: true }));
-  const [owner, repo] = core.getInput('repository', { required: true }).split('/');
-  const pull_number = +core.getInput('pull_number', { required: true });
   try {
     const commits: CommitInfo[] = [];
     for await (const response of client.paginate.iterator(client.pulls.listCommits, { repo, owner, pull_number })) {
@@ -53,16 +51,15 @@ const getCommits = async (): Promise<CommitInfo[]> => {
   }
 }
 
+
+
 const main = async () => {
-  const client = getOctokit(core.getInput('token', { required: true }));
-  const [owner, repo] = core.getInput('repository', { required: true }).split('/');
-  const pull_number = +core.getInput('pull_number', { required: true });
   const update = !!core.getInput('update');
   const before = core.getInput('before');
   try {
     const commits = await getCommits();
     const labels = extract(
-      update && false ? commits.slice(commits.findIndex(commit => commit.sha === before) + 1) : commits
+      update ? commits.slice(commits.findIndex(commit => commit.sha === before) + 1) : commits
     );
     const log = createLog(commits);
     await client.pulls.update({

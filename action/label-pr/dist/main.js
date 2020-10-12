@@ -36,8 +36,7 @@ var __asyncValues = (this && this.__asyncValues) || function (o) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const core = __importStar(require("@actions/core"));
-const github_1 = require("@actions/github");
-const gg = 'opened';
+const inputs_1 = require("./inputs");
 const rules = {
     enhancement: /^feat|^new/i,
     bug: /^fix|^bug/i,
@@ -68,13 +67,10 @@ const createLog = (commits) => {
 };
 const getCommits = () => __awaiter(void 0, void 0, void 0, function* () {
     var e_1, _a;
-    const client = github_1.getOctokit(core.getInput('token', { required: true }));
-    const [owner, repo] = core.getInput('repository', { required: true }).split('/');
-    const pull_number = +core.getInput('pull_number', { required: true });
     try {
         const commits = [];
         try {
-            for (var _b = __asyncValues(client.paginate.iterator(client.pulls.listCommits, { repo, owner, pull_number })), _c; _c = yield _b.next(), !_c.done;) {
+            for (var _b = __asyncValues(inputs_1.client.paginate.iterator(inputs_1.client.pulls.listCommits, { repo: inputs_1.repo, owner: inputs_1.owner, pull_number: inputs_1.pull_number })), _c; _c = yield _b.next(), !_c.done;) {
                 const response = _c.value;
                 for (const commit of response.data) {
                     const { sha, commit: { message, url } } = commit;
@@ -96,22 +92,19 @@ const getCommits = () => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 const main = () => __awaiter(void 0, void 0, void 0, function* () {
-    const client = github_1.getOctokit(core.getInput('token', { required: true }));
-    const [owner, repo] = core.getInput('repository', { required: true }).split('/');
-    const pull_number = +core.getInput('pull_number', { required: true });
     const update = !!core.getInput('update');
     const before = core.getInput('before');
     try {
         const commits = yield getCommits();
-        const labels = extract(update && false ? commits.slice(commits.findIndex(commit => commit.sha === before) + 1) : commits);
+        const labels = extract(update ? commits.slice(commits.findIndex(commit => commit.sha === before) + 1) : commits);
         const log = createLog(commits);
-        yield client.pulls.update({
-            owner, repo,
-            pull_number,
+        yield inputs_1.client.pulls.update({
+            owner: inputs_1.owner, repo: inputs_1.repo,
+            pull_number: inputs_1.pull_number,
             body: log
         });
-        yield client.issues.addLabels({
-            owner, repo, issue_number: pull_number, labels
+        yield inputs_1.client.issues.addLabels({
+            owner: inputs_1.owner, repo: inputs_1.repo, issue_number: inputs_1.pull_number, labels
         });
     }
     catch (error) {
