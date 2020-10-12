@@ -11,9 +11,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const lerna_changelog_1 = require("lerna-changelog");
 const configuration_1 = require("lerna-changelog/lib/configuration");
+const inputs_1 = require("./inputs");
 const main = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const config = configuration_1.load();
+        const config = configuration_1.load({
+            repo: inputs_1.repo
+        });
         const result = new lerna_changelog_1.Changelog(config);
         console.log(result);
     }

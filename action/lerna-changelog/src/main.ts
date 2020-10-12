@@ -1,15 +1,17 @@
 import { Changelog } from 'lerna-changelog';
 import { load as loadConfig } from 'lerna-changelog/lib/configuration';
 
-// import { client, repo, owner } from './inputs';
+import { client, repo, owner } from './inputs';
 
 const main = async () => {
-  try{
+  try {
 
-    const config = loadConfig();
+    const config = loadConfig({
+      repo
+    });
     const result = new Changelog(config);
     console.log(result);
-  } catch(error){
+  } catch (error) {
     console.error(error.message);
   }
 };
