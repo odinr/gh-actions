@@ -44,6 +44,7 @@ const main = async () => {
     for await (const response of client.paginate.iterator(client.pulls.listCommits, { repo, owner, pull_number })) {
       for(const commit of response.data){
         const { sha, commit: { message, url } } = commit;
+        console.log(sha);
         if(update && sha === before){
           break fetch;
         }

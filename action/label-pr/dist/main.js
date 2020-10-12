@@ -79,6 +79,7 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
                 const response = _c.value;
                 for (const commit of response.data) {
                     const { sha, commit: { message, url } } = commit;
+                    console.log(sha);
                     if (update && sha === before) {
                         break fetch;
                     }
