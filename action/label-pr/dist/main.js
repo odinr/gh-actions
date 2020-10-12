@@ -49,10 +49,10 @@ const rules = {
 const emojis = {
     enhancement: ':rocket:',
     bug: ':bug:',
-    documentation: ':ledger:',
+    documentation: ':books:',
     internal: ':house:',
     performance: ':chart_with_upwards_trend:',
-    breaking: ':bomb:',
+    breaking: ':rotating_light:',
 };
 const match = (msg) => Object.keys(rules).filter(label => !!msg.match(rules[label]));
 const extract = (commits) => {
