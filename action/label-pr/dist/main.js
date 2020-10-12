@@ -91,3 +91,4 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 console.log("commits:", core.getInput('commits'));
+console.log("event:", core.getInput('event'));
