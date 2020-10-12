@@ -1,5 +1,4 @@
 import * as core from '@actions/core';
-import { context, getOctokit } from '@actions/github';
 
 import { client, repo, owner, pull_number }  from './inputs';
 
