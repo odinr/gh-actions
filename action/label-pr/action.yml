@@ -14,9 +14,6 @@ inputs:
   commits:
     description: Pull request number
     default: ${{ github.event.commits }}
-  event:
-    description: Pull request number
-    default: ${{ github.event }}
 
 runs:
   using: 'node12'
