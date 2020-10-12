@@ -15,10 +15,10 @@ const rules = {
 const emojis = {
   enhancement: ':rocket:',
   bug: ':bug:',
-  documentation: ':books:',
+  documentation: ':pencil:',
   internal: ':house:',
   performance: ':chart_with_upwards_trend:',
-  breaking: ':rotating_light:',
+  breaking: ':boom:',
 }
 
 const match = (msg: string) => Object.keys(rules).filter(label => !!msg.match(rules[label]));
