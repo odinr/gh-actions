@@ -37,7 +37,7 @@ const main = async () => {
   const pull_number = +core.getInput('pull_number', { required: true });
   const update = !!core.getInput('update');
   const before = core.getInput('before');
-  console.log(update, before);
+  console.log(update, before, context);
   try {
     const commits: CommitInfo[] = [];
     fetch:

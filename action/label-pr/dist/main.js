@@ -71,7 +71,7 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
     const pull_number = +core.getInput('pull_number', { required: true });
     const update = !!core.getInput('update');
     const before = core.getInput('before');
-    console.log(update, before);
+    console.log(update, before, github_1.context);
     try {
         const commits = [];
         try {
