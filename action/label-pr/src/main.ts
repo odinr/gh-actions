@@ -13,7 +13,7 @@ const rules = {
 }
 
 const emojis = {
-  enhancement: ':rocket',
+  enhancement: ':rocket:',
   bug: ':bug:',
   documentation: ':ledger:',
   internal: ':house:',
@@ -30,7 +30,7 @@ const extract = (commits: CommitInfo[]) => {
 const createLog = (commits: CommitInfo[]) => {
   return Object.keys(rules).map(type => {
     const selection = commits.filter(commit => commit.labels.includes(type));
-    const messages = selection.map(commit => commit.message.replace(/^\w+[:]?\s?^/, '') + `#[${commit.sha.slice(0, 7)}](${commit.sha})`)
+    const messages = selection.map(commit => commit.message.replace(/^\w+[:]?\s?^/, '') + ` \`#[${commit.sha.slice(0, 7)}](${commit.sha})\``)
     return `
       ##${emojis[type]} ${type}
       ${messages.join("\n")}
