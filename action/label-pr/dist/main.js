@@ -48,20 +48,7 @@ const rules = {
 };
 const match = (msg) => Object.keys(rules).filter(label => !!msg.match(rules[label]));
 const extract = (commits) => {
-    const labels = commits.reduce((c, v) => {
-        const [_, message] = v.message.match(/(?:^revert[:]?) \"(.*)\"/mi) || [];
-        _ && console.log(_, message);
-        if (!!message) {
-            match(message).forEach(l => {
-                const i = c.lastIndexOf(l);
-                console.log(message, c[i]);
-                i > 0 && delete c[i];
-            });
-            return c;
-        }
-        return c.concat(v.labels);
-    }, []);
-    console.log(labels, commits.map(v => v.labels));
+    const labels = commits.reduce((c, v) => c.concat(v.labels), []);
     return [...new Set(labels)];
 };
 const getCommits = () => __awaiter(void 0, void 0, void 0, function* () {
@@ -69,8 +56,6 @@ const getCommits = () => __awaiter(void 0, void 0, void 0, function* () {
     const client = github_1.getOctokit(core.getInput('token', { required: true }));
     const [owner, repo] = core.getInput('repository', { required: true }).split('/');
     const pull_number = +core.getInput('pull_number', { required: true });
-    const update = !!core.getInput('update');
-    const before = core.getInput('before');
     try {
         const commits = [];
         try {
@@ -89,16 +74,18 @@ const getCommits = () => __awaiter(void 0, void 0, void 0, function* () {
             }
             finally { if (e_1) throw e_1.error; }
         }
-        return update ? commits.slice(commits.findIndex(commit => commit.sha === before) + 1) : commits;
+        return commits;
     }
     catch (error) {
         throw Error(error.message);
     }
 });
 const main = () => __awaiter(void 0, void 0, void 0, function* () {
+    const update = !!core.getInput('update');
+    const before = core.getInput('before');
     try {
         const commits = yield getCommits();
-        const labels = extract(commits);
+        const labels = extract(update ? commits.slice(commits.findIndex(commit => commit.sha === before) + 1) : commits);
         console.log(commits, labels);
     }
     catch (error) {
