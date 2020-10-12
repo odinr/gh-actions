@@ -37,6 +37,7 @@ const main = async () => {
   const pull_number = +core.getInput('pull_number', { required: true });
   const update = !!core.getInput('update');
   const before = core.getInput('before');
+  console.log(update, before);
   try {
     const commits: CommitInfo[] = [];
     fetch:
@@ -50,7 +51,7 @@ const main = async () => {
       }
     }
     const labels = extract(commits);
-    // console.log(commits, labels);
+    console.log(labels);
   } catch (error) {
     core.setFailed(error.message);
   }

@@ -71,6 +71,7 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
     const pull_number = +core.getInput('pull_number', { required: true });
     const update = !!core.getInput('update');
     const before = core.getInput('before');
+    console.log(update, before);
     try {
         const commits = [];
         try {
@@ -93,6 +94,7 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
             finally { if (e_1) throw e_1.error; }
         }
         const labels = extract(commits);
+        console.log(labels);
     }
     catch (error) {
         core.setFailed(error.message);
