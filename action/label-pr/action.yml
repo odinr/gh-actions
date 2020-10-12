@@ -12,7 +12,7 @@ inputs:
     description: Pull request number
     default: ${{ github.event.number }}
   sha:
-  #   description: Pull request number
+    description: Since commit
     default: ${{ github.event.before }}
 
 runs:

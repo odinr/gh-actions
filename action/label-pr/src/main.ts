@@ -51,4 +51,4 @@ const main = async () => {
 // console.log("commits:", core.getInput('commits'));
 // @ts-ignore
 // console.log("event:", GITHUB_CONTEXT);
-// main();
+main();
