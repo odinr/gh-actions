@@ -2,7 +2,7 @@ import * as core from '@actions/core';
 
 import { client, repo, owner, pull_number } from './inputs';
 
-type CommitInfo = { message: string, url: string, sha: string, labels: string[] }
+type CommitInfo = { message: string, html_url: string, sha: string, labels: string[] }
 const rules = {
   enhancement: /^feat|^new/i,
   bug: /^fix|^bug/i,
@@ -30,7 +30,7 @@ const extract = (commits: CommitInfo[]) => {
 const createLog = (commits: CommitInfo[]) => {
   return Object.keys(rules).map(type => {
     const selection = commits.filter(commit => commit.labels.includes(type));
-    const messages = selection.map(commit => [`[#${commit.sha.slice(0, 7)}](${commit.url})`, commit.message.replace(/^\w+[:]?\s?/, '')].join(' - '))
+    const messages = selection.map(commit => [`[#${commit.sha.slice(0, 7)}](${commit.html_url})`, commit.message.replace(/^\w+[:]?\s?/, '')].join(' - '))
     return messages.length ? `## ${emojis[type]} ${type}\n\n${messages.join("\n")}` : '';
   }).join("\n")
 }
@@ -40,8 +40,8 @@ const getCommits = async (): Promise<CommitInfo[]> => {
     const commits: CommitInfo[] = [];
     for await (const response of client.paginate.iterator(client.pulls.listCommits, { repo, owner, pull_number })) {
       for (const commit of response.data) {
-        const { sha, commit: { message, url } } = commit;
-        commits.push({ sha, message, url, labels: match(message) });
+        const { sha, html_url, commit: { message } } = commit;
+        commits.push({ sha, message, html_url, labels: match(message) });
       }
     }
     return commits;

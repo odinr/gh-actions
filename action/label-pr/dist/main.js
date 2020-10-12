@@ -61,7 +61,7 @@ const extract = (commits) => {
 const createLog = (commits) => {
     return Object.keys(rules).map(type => {
         const selection = commits.filter(commit => commit.labels.includes(type));
-        const messages = selection.map(commit => [`[#${commit.sha.slice(0, 7)}](${commit.url})`, commit.message.replace(/^\w+[:]?\s?/, '')].join(' - '));
+        const messages = selection.map(commit => [`[#${commit.sha.slice(0, 7)}](${commit.html_url})`, commit.message.replace(/^\w+[:]?\s?/, '')].join(' - '));
         return messages.length ? `## ${emojis[type]} ${type}\n\n${messages.join("\n")}` : '';
     }).join("\n");
 };
@@ -73,8 +73,8 @@ const getCommits = () => __awaiter(void 0, void 0, void 0, function* () {
             for (var _b = __asyncValues(inputs_1.client.paginate.iterator(inputs_1.client.pulls.listCommits, { repo: inputs_1.repo, owner: inputs_1.owner, pull_number: inputs_1.pull_number })), _c; _c = yield _b.next(), !_c.done;) {
                 const response = _c.value;
                 for (const commit of response.data) {
-                    const { sha, commit: { message, url } } = commit;
-                    commits.push({ sha, message, url, labels: match(message) });
+                    const { sha, html_url, commit: { message } } = commit;
+                    commits.push({ sha, message, html_url, labels: match(message) });
                 }
             }
         }
