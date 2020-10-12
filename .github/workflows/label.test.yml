@@ -17,9 +17,7 @@ jobs:
           ref: ${{ github.head_ref }}
       - name: Setup Node
         uses: actions/setup-node@v1
-      - run: echo "$EVENT"
-        env: 
-          EVENT: github.event
+      - run: echo "$GIUTHUB_CONTEXT"
       - name: Create version
         id: version
         uses: ./action/label-pr
