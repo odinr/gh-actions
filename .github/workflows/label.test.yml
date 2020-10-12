@@ -21,6 +21,6 @@ jobs:
         id: version
         uses: ./action/label-pr
         with:
-          commits: ${{ github.event.commits }}
+          commits: ${{ toJSON(github.event.commits) }}
           before: ${{ github.event.before }}
           after: ${{ github.event.after }}
