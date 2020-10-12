@@ -2,7 +2,7 @@ import * as core from '@actions/core';
 import { context, getOctokit } from '@actions/github';
 
 type CommitInfo = { message: string, url: string, sha: string, labels: string[] }
-
+const gg = 'opened'// 'reopened';
 const rules = {
   enhancement: /^feat|^new/i,
   bug: /^fix|^bug/i,
@@ -15,7 +15,7 @@ const rules = {
 const match = (msg: string) => Object.keys(rules).filter(label => !!msg.match(rules[label]));
 const extract = (commits: CommitInfo[]) => {
   const labels = commits.reduce((c, v) => {
-    const [_, message] = v.message.match(/(?:^revert[:]?) \"(.*)\"/gmi) || [];
+    const [_, message] = v.message.match(/(?:^revert[:]?) \"(.*)\"/mi) || [];
     _ && console.log(_, message);
     if (!!message) {
       match(message).forEach(l => {
@@ -36,12 +36,9 @@ const main = async () => {
   const [owner, repo] = core.getInput('repository', { required: true }).split('/');
   const pull_number = +core.getInput('pull_number', { required: true });
   const sha = +core.getInput('sha', { required: true });
-  const options = { repo, owner, pull_number, sha };
-  console.log(context.eventName, context.action);
-  console.log(context, context.payload.action === 'synchronize');
   try {
     const commits: CommitInfo[] = [];
-    for await (const response of client.paginate.iterator(client.pulls.listCommits, options)) {
+    for await (const response of client.paginate.iterator(client.pulls.listCommits, { repo, owner, pull_number })) {
       response.data.forEach(({ sha, commit: { message, url } }) => commits.push({ sha, message, url, labels: match(message) }));
     }
     const labels = extract(commits);

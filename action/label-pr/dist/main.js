@@ -37,6 +37,7 @@ var __asyncValues = (this && this.__asyncValues) || function (o) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const core = __importStar(require("@actions/core"));
 const github_1 = require("@actions/github");
+const gg = 'opened';
 const rules = {
     enhancement: /^feat|^new/i,
     bug: /^fix|^bug/i,
@@ -48,7 +49,7 @@ const rules = {
 const match = (msg) => Object.keys(rules).filter(label => !!msg.match(rules[label]));
 const extract = (commits) => {
     const labels = commits.reduce((c, v) => {
-        const [_, message] = v.message.match(/(?:^revert[:]?) \"(.*)\"/gmi) || [];
+        const [_, message] = v.message.match(/(?:^revert[:]?) \"(.*)\"/mi) || [];
         _ && console.log(_, message);
         if (!!message) {
             match(message).forEach(l => {
@@ -69,13 +70,10 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
     const [owner, repo] = core.getInput('repository', { required: true }).split('/');
     const pull_number = +core.getInput('pull_number', { required: true });
     const sha = +core.getInput('sha', { required: true });
-    const options = { repo, owner, pull_number, sha };
-    console.log(github_1.context.eventName, github_1.context.action);
-    console.log(github_1.context, github_1.context.payload.action === 'synchronize');
     try {
         const commits = [];
         try {
-            for (var _b = __asyncValues(client.paginate.iterator(client.pulls.listCommits, options)), _c; _c = yield _b.next(), !_c.done;) {
+            for (var _b = __asyncValues(client.paginate.iterator(client.pulls.listCommits, { repo, owner, pull_number })), _c; _c = yield _b.next(), !_c.done;) {
                 const response = _c.value;
                 response.data.forEach(({ sha, commit: { message, url } }) => commits.push({ sha, message, url, labels: match(message) }));
             }
