@@ -13,13 +13,14 @@ jobs:
     steps:
       - name: Checkout PR
         uses: actions/checkout@v2
-        with:
-          ref: ${{ github.head_ref }}
+
       - name: Setup Node
         uses: actions/setup-node@v1
+
       - name: PR info
         id: pr_info
         uses: ./action/pr-info
+
       - name: Add labels
         uses: actions/github-script@v3
         with:
