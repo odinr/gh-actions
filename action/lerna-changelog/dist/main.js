@@ -8,13 +8,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const lerna_changelog_1 = __importDefault(require("lerna-changelog"));
+const lerna_changelog_1 = require("lerna-changelog");
 const config_1 = require("./config");
-class GG extends lerna_changelog_1.default {
+class GG extends lerna_changelog_1.Changelog {
     packageFromPath(path) {
         const parts = path.split("/");
         const ff = config_1.packages.find(pkg => path.startsWith(pkg));

@@ -1,11 +1,11 @@
-import Changelog from 'lerna-changelog';
+import { Changelog } from 'lerna-changelog';
 import { config, packages } from './config';
 
 class GG extends Changelog {
   packageFromPath(path: string) {
     const parts = path.split("/");
     const ff = packages.find(pkg => path.startsWith(pkg));
-    if(ff){
+    if (ff) {
       return parts[1];
     }
     // if(path.startsWith())
