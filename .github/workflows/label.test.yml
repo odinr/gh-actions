@@ -26,6 +26,9 @@ jobs:
         with:
           github-token: ${{ github.token }}
           script: |
+            console.log(steps.pr_info.output.commits);
+            console.log(steps.pr_info.output.labels);
+            console.log(steps.pr_info.output.pushed_labels);
             await github.issues.addLabels({
               issue_number: context.issue.number,
               owner: context.repo.owner,
