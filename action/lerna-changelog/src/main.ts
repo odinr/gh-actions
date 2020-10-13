@@ -4,7 +4,7 @@ import { config, packages } from './config';
 class GG extends Changelog {
   packageFromPath(path: string) {
     const pkg = packages.find(pkg => path.startsWith(pkg.path));
-    return pkg?.name;
+    return pkg?.tag;
   }
 }
 

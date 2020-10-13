@@ -14,7 +14,7 @@ const config_1 = require("./config");
 class GG extends lerna_changelog_1.Changelog {
     packageFromPath(path) {
         const pkg = config_1.packages.find(pkg => path.startsWith(pkg.path));
-        return pkg === null || pkg === void 0 ? void 0 : pkg.name;
+        return pkg === null || pkg === void 0 ? void 0 : pkg.tag;
     }
 }
 const main = () => __awaiter(void 0, void 0, void 0, function* () {
