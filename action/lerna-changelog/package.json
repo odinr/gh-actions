@@ -13,6 +13,6 @@
     "@actions/core": "^1.2.6",
     "@actions/github": "^4.0.0",
     "lerna-changelog": "^1.0.1",
-    "util-lerna-packages": "^1.0.0"
+    "util-lerna-packages": "file:../../util/lerna-packages"
   }
 }
