@@ -23,15 +23,14 @@ jobs:
 
       - name: Add labels
         uses: actions/github-script@v3
+        if: ${{ steps.pr_info.outputs.pushed_labels }}
         with:
           github-token: ${{ github.token }}
           script: |
-            console.log(${{ steps.pr_info.outputs.commits }});
-            console.log(${{ steps.pr_info.outputs.labels }});
-            console.log(${{ steps.pr_info.outputs.pushed_labels }});
+            const labels = ${{ fromJSON(steps.pr_info.outputs.pushed_labels) }}
             await github.issues.addLabels({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              labels: ['internal']
+              labels
             })
