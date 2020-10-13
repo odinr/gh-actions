@@ -22,7 +22,7 @@ jobs:
         uses: ./action/pr-info
 
       - name: Add labels
-        if: ${{ steps.pr_info.outputs.pushed_labels }}
+        if: ${{ steps.pr_info.outputs.pushed_labels[0] }}
         uses: actions/github-script@v3
         with:
           github-token: ${{ github.token }}
