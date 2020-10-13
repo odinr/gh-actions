@@ -7,7 +7,7 @@ const lernaConfig = require(`${rootPath}/lerna.json`);
 /**
  * @returns [ { path: string, name: string, version: string, tag: string }[]]
  */
-export const packages = lernaConfig.packages.reduce((cur, value) => {
+const packages = lernaConfig.packages.reduce((cur, value) => {
   const raw = String(execSync(`ls -d ${join(rootPath.replace(/(\s)/g, '\\$1'), value)}/`));
   const paths = raw.split('\n').filter(v => !!v);
   const packages = paths.map(path => {
@@ -21,3 +21,5 @@ export const packages = lernaConfig.packages.reduce((cur, value) => {
   });
   return cur.concat(packages);
 }, []);
+
+module.exports = {packages};
