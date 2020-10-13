@@ -1,5 +1,5 @@
-import { join } from 'path';
-import { execSync } from 'child_process';
+const { join } = require('path')
+const { execSync } = require('child_process')
 
 const rootPath = String(execSync("git rev-parse --show-toplevel")).trim();
 const lernaConfig = require(`${rootPath}/lerna.json`);
