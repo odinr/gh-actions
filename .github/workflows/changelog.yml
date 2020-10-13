@@ -5,9 +5,6 @@ on:
     inputs:
       next_version:
         description: name of next version
-  # pull_request:
-  #   branches: [master]
-  #   types: [opened, reopened, synchronize]
 
 jobs:
   create_changelog:
@@ -27,7 +24,7 @@ jobs:
         uses: ./action/lerna-changelog
         with:
           next_version: ${{ github.event.inputs.next_version }}  
-          
+
       - name: Show log
         run: echo "$RESULT"
         env:
