@@ -88,7 +88,7 @@ const getFiles = () => __awaiter(void 0, void 0, void 0, function* () {
     const { data } = yield exports.client.pulls.listFiles({ repo: exports.repo, owner: exports.owner, pull_number: exports.pull_number });
     return data.map(f => f.filename);
 });
-const getPackages = (files) => __awaiter(void 0, void 0, void 0, function* () {
+const affectedPackages = (files) => __awaiter(void 0, void 0, void 0, function* () {
     files !== null && files !== void 0 ? files : (files = yield getFiles());
     const findPackage = (path) => lerna_packages_1.getPackages().find(pkg => path.startsWith(pkg.path));
     return [...new Set(files.map(findPackage).filter(v => !!v))];
@@ -103,7 +103,7 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
         core.setOutput('files', files);
         core.setOutput('commits', commits);
         core.setOutput('labels', extractLabel(commits));
-        core.setOutput('packages', getPackages(files));
+        core.setOutput('packages', affectedPackages(files));
         core.setOutput('pushed_commits', pushedCommits);
         core.setOutput('pushed_labels', extractLabel(pushedCommits));
     }

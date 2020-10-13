@@ -1,6 +1,6 @@
 import * as core from '@actions/core';
 import { getOctokit } from '@actions/github';
-import { getPackages as getLernaPackages, Package } from 'lerna-packages';
+import { getPackages, Package } from 'lerna-packages';
 
 export const token = core.getInput('token', { required: true });
 export const client = getOctokit(core.getInput('token', { required: true }));
@@ -52,9 +52,9 @@ const getFiles = async (): Promise<string[]> => {
   return data.map(f => f.filename);
 }
 
-const getPackages = async (files?: string[]): Promise<Package[]> => {
+const affectedPackages = async (files?: string[]): Promise<Package[]> => {
   files ??= await getFiles();
-  const findPackage = (path: string) => getLernaPackages().find(pkg => path.startsWith(pkg.path));
+  const findPackage = (path: string) => getPackages().find(pkg => path.startsWith(pkg.path));
   return [...new Set(files.map(findPackage).filter(v => !!v) as Array<Package>)];
 };
 
@@ -69,7 +69,7 @@ const main = async () => {
     core.setOutput('files', files);
     core.setOutput('commits', commits);
     core.setOutput('labels', extractLabel(commits));
-    core.setOutput('packages', getPackages(files));
+    core.setOutput('packages', affectedPackages(files));
 
     core.setOutput('pushed_commits', pushedCommits);
     core.setOutput('pushed_labels', extractLabel(pushedCommits));
