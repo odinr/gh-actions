@@ -5,12 +5,14 @@
     "lib": [
       "es6"
     ],
-    "outDir": "./dist",
-    "rootDir": "./src",
+    "composite": true,
     "strict": true,
     "noImplicitAny": false,
+    "noUnusedLocals":true,
+    "noUnusedParameters":true,
     "esModuleInterop": true,
     "removeComments": true,
-    "incremental": true,
-  }
+    "incremental": true
+  },
+
 }

@@ -1,0 +1,11 @@
+{
+  "name": "gh-util-lerna-package",
+  "version": "1.0.0",
+  "private": true,
+  "author": "odin thomas rochmann <odin.rochmann@gmail.com>",
+  "license": "ISC",
+  "main": "dist/index.js",
+  "dependencies": {
+    "@types/node": "^14.11.8"
+  }
+}

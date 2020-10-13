@@ -17,6 +17,17 @@ jobs:
           ref: ${{ github.head_ref }}
       - name: Setup Node
         uses: actions/setup-node@v1
-      - name: Create version
-        id: version
-        uses: ./action/label-pr
+      - name: PR info
+        id: pr_info
+        uses: ./action/pr-info
+      - name: Add labels
+        uses: actions/github-script@v3
+        with:
+          github-token: ${{ github.token }}
+          script: |
+            await github.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ${{ fromJSON(steps.pr_info.output.pushed_labels) }}
+            })
