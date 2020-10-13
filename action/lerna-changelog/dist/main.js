@@ -13,11 +13,8 @@ const lerna_changelog_1 = require("lerna-changelog");
 const config_1 = require("./config");
 class GG extends lerna_changelog_1.Changelog {
     packageFromPath(path) {
-        const parts = path.split("/");
-        const ff = config_1.packages.find(pkg => path.startsWith(pkg));
-        if (ff) {
-            return parts[1];
-        }
+        const pkg = config_1.packages.find(pkg => path.startsWith(pkg.path));
+        return pkg === null || pkg === void 0 ? void 0 : pkg.name;
     }
 }
 const main = () => __awaiter(void 0, void 0, void 0, function* () {
