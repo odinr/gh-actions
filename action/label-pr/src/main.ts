@@ -31,7 +31,7 @@ const createLog = (commits: CommitInfo[]) => {
   return Object.keys(rules).map(type => {
     const selection = commits.filter(commit => commit.labels.includes(type));
     const messages = selection.map(commit => [`[#${commit.sha.slice(0, 7)}](${commit.html_url})`, commit.message.replace(/^\w+[:]?\s?/, '')].join(' - '))
-    return messages.length ? `## ${emojis[type]} ${type}\n\n${messages.join("\n")}` : '';
+    return messages.length ? `#### ${emojis[type]} ${type}\n\n${messages.join("\n")}` : '';
   }).join("\n")
 }
 
