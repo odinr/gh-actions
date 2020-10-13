@@ -44,7 +44,7 @@ const rootPath = String(child_process_1.execSync("git rev-parse --show-toplevel"
 const lernaConfig = require(`${rootPath}/lerna.json`);
 exports.packages = lernaConfig.packages.reduce((cur, value) => {
     const raw = String(child_process_1.execSync(`ls -d ${path_1.join(rootPath.replace(/(\s)/g, '\\$1'), value)}/`));
-    const paths = raw.split('\n').map(a => a.replace(rootPath + '/', '')).filter(v => !!v);
+    const paths = raw.split('\n').filter(v => !!v);
     const packages = paths.map(path => ({
         path: path.replace(rootPath, '').replace(/^\//, ''),
         name: require(path_1.join(path, 'package.json')).name
