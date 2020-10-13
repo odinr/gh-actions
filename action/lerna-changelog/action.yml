@@ -8,6 +8,8 @@ inputs:
   repository:
     description: repo repo (used for 'version.latest')
     default: ${{ github.repository }}
+  next_version:
+    description: header of changelog
   tag_from:
     description: tag from
   tag_to:

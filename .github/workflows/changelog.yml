@@ -2,15 +2,18 @@ name: "Change Log"
 
 on:
   workflow_dispatch:
-  pull_request:
-    branches: [master]
-    types: [opened, reopened, synchronize]
+    inputs:
+      next_version:
+        description: name of next version
+  # pull_request:
+  #   branches: [master]
+  #   types: [opened, reopened, synchronize]
 
 jobs:
   create_changelog:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout PR
+      - name: Checkout Branch
         uses: actions/checkout@v2
         with:
           ref: ${{ github.head_ref }}
@@ -22,7 +25,9 @@ jobs:
       - name: Create release log
         id: changelog
         uses: ./action/lerna-changelog
-
+        with:
+          next_version: ${{ github.event.inputs.next_version }}  
+          
       - name: Show log
         run: echo "$RESULT"
         env:
