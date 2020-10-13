@@ -8,8 +8,6 @@ on:
 jobs:
   label_pr:
     runs-on: ubuntu-latest
-    # needs: check_branch
-    # if: ${{ needs.check_branch.outputs.type }}
     steps:
       - name: Checkout PR
         uses: actions/checkout@v2
