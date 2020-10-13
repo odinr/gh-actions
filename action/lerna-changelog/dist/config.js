@@ -19,10 +19,9 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.config = exports.packages = void 0;
+exports.config = void 0;
 const core = __importStar(require("@actions/core"));
 const child_process_1 = require("child_process");
-const path_1 = require("path");
 const repo = core.getInput('repository', { required: true });
 const nextVersion = core.getInput('next_version') || '';
 const ignoreCommitters = [
@@ -41,21 +40,6 @@ const labels = {
     internal: ":house: Internal",
 };
 const rootPath = String(child_process_1.execSync("git rev-parse --show-toplevel")).trim();
-const lernaConfig = require(`${rootPath}/lerna.json`);
-exports.packages = lernaConfig.packages.reduce((cur, value) => {
-    const raw = String(child_process_1.execSync(`ls -d ${path_1.join(rootPath.replace(/(\s)/g, '\\$1'), value)}/`));
-    const paths = raw.split('\n').filter(v => !!v);
-    const packages = paths.map(path => {
-        const { name, version } = require(path_1.join(path, 'package.json'));
-        return ({
-            name,
-            version,
-            tag: `${name}@${version}`,
-            path: path.replace(rootPath, '').replace(/^\//, ''),
-        });
-    });
-    return cur.concat(packages);
-}, []);
 exports.config = {
     repo,
     rootPath,

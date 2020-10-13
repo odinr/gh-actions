@@ -11,9 +11,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const lerna_changelog_1 = require("lerna-changelog");
 const config_1 = require("./config");
+const util_lerna_packages_1 = require("util-lerna-packages");
 class GG extends lerna_changelog_1.Changelog {
     packageFromPath(path) {
-        const pkg = config_1.packages.find(pkg => path.startsWith(pkg.path));
+        const pkg = util_lerna_packages_1.packages.find(pkg => path.startsWith(pkg.path));
         return pkg === null || pkg === void 0 ? void 0 : pkg.tag;
     }
 }

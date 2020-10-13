@@ -1,5 +1,6 @@
 import { Changelog } from 'lerna-changelog';
-import { config, packages } from './config';
+import { config } from './config';
+import { packages } from 'util-lerna-packages';
 
 class GG extends Changelog {
   packageFromPath(path: string) {
