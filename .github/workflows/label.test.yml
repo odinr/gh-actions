@@ -25,13 +25,14 @@ jobs:
         uses: actions/github-script@v3
         with:
           github-token: ${{ github.token }}
+          debug: true
           script: |
-            console.log(steps.pr_info.output.commits);
-            console.log(steps.pr_info.output.labels);
-            console.log(steps.pr_info.output.pushed_labels);
+            console.log(${{ steps.pr_info.output.commits }});
+            console.log(${{ steps.pr_info.output.labels }});
+            console.log(${{ steps.pr_info.output.pushed_labels }});
             await github.issues.addLabels({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              labels: ${{ fromJSON(steps.pr_info.output.pushed_labels) }}
+              labels: ['internal']
             })
