@@ -16,18 +16,18 @@ jobs:
         uses: actions/setup-node@v1
 
       - name: PR info
-        id: pr_info
+        id: info
         uses: ./action/pr-info
 
       - name: Add labels
-        if: ${{ steps.pr_info.outputs.pushed_labels.length != 0 }}
         uses: actions/github-script@v3
         with:
           github-token: ${{ github.token }}
           script: |
-            await github.issues.addLabels({
+            const labels = ${{ steps.info.outputs.pushed_labels }}
+            labels.length && await github.issues.addLabels({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              labels: ${{ steps.pr_info.outputs.pushed_labels }}
-            });
+              labels
+            })
