@@ -30,13 +30,44 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const core = __importStar(require("@actions/core"));
 const lerna_changelog_1 = require("lerna-changelog");
-const configuration_1 = require("lerna-changelog/lib/configuration");
 const repo = core.getInput('repository', { required: true });
+const nextVersion = "v.1.2.3";
+const ignoreCommitters = [
+    "dependabot-bot",
+    "dependabot[bot]",
+    "greenkeeperio-bot",
+    "greenkeeper[bot]",
+    "renovate-bot",
+    "renovate[bot]",
+];
+const labels = {
+    breaking: ":boom: Breaking Change",
+    enhancement: ":rocket: Enhancement",
+    bug: ":bug: Bug Fix",
+    documentation: ":memo: Documentation",
+    internal: ":house: Internal",
+};
+const { exec } = require("child_process");
+const run = (cmd) => new Promise((resolve, reject) => {
+    exec(cmd, (error, stdout, stderr) => {
+        if (error) {
+            reject(error);
+        }
+        if (stderr) {
+            reject(Error(stderr));
+        }
+        resolve(stdout);
+    });
+});
 const main = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const config = configuration_1.load({
-            repo
-        });
+        const config = {
+            repo,
+            labels,
+            nextVersion,
+            ignoreCommitters,
+            rootPath: yield run("git rev-parse --show-toplevel")
+        };
         const result = yield new lerna_changelog_1.Changelog(config).createMarkdown();
         console.log(result);
     }
