@@ -5,7 +5,7 @@ import { getPackages as getLernaPackages, Package } from 'lerna-packages';
 export const token = core.getInput('token', { required: true });
 export const client = getOctokit(core.getInput('token', { required: true }));
 export const [owner, repo] = core.getInput('repository', { required: true }).split('/');
-export const sha = core.getInput('sha', { required: true });
+export const sha = core.getInput('sha');
 export const pull_number = +core.getInput('pull_number', { required: true });
 
 export interface CommitInfo {
@@ -62,7 +62,9 @@ const main = async () => {
   try {
     const files = await getFiles();
     const commits = await getCommits();
-    const pushedCommits = commits.slice(commits.findIndex(commit => commit.sha === sha) + 1);
+    const pushedCommits = sha
+      ? commits.slice(commits.findIndex(commit => commit.sha === sha) + 1)
+      : commits;
 
     core.setOutput('files', files);
     core.setOutput('commits', commits);

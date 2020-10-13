@@ -43,7 +43,7 @@ const lerna_packages_1 = require("lerna-packages");
 exports.token = core.getInput('token', { required: true });
 exports.client = github_1.getOctokit(core.getInput('token', { required: true }));
 _a = core.getInput('repository', { required: true }).split('/'), exports.owner = _a[0], exports.repo = _a[1];
-exports.sha = core.getInput('sha', { required: true });
+exports.sha = core.getInput('sha');
 exports.pull_number = +core.getInput('pull_number', { required: true });
 const rules = {
     enhancement: /^feat|^new/i,
@@ -97,7 +97,9 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const files = yield getFiles();
         const commits = yield getCommits();
-        const pushedCommits = commits.slice(commits.findIndex(commit => commit.sha === exports.sha) + 1);
+        const pushedCommits = exports.sha
+            ? commits.slice(commits.findIndex(commit => commit.sha === exports.sha) + 1)
+            : commits;
         core.setOutput('files', files);
         core.setOutput('commits', commits);
         core.setOutput('labels', extractLabel(commits));
