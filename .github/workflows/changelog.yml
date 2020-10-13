@@ -16,14 +16,8 @@ jobs:
           ref: ${{ github.head_ref }}
           fetch-depth: 0
 
-      # - name: Setup GIT
-      #   run: |
-      #     git config --global user.email "you@example.com"
-      #     git config --global user.name "Your Name"
-      #     git fetch --depth=1 origin +refs/tags/*:refs/tags/*
-
       - name: Setup Node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2-beta
 
       - name: Create release log
         id: changelog
