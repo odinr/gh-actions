@@ -45,10 +45,15 @@ const lernaConfig = require(`${rootPath}/lerna.json`);
 exports.packages = lernaConfig.packages.reduce((cur, value) => {
     const raw = String(child_process_1.execSync(`ls -d ${path_1.join(rootPath.replace(/(\s)/g, '\\$1'), value)}/`));
     const paths = raw.split('\n').filter(v => !!v);
-    const packages = paths.map(path => ({
-        path: path.replace(rootPath, '').replace(/^\//, ''),
-        name: require(path_1.join(path, 'package.json')).name
-    }));
+    const packages = paths.map(path => {
+        const { name, version } = require(path_1.join(path, 'package.json'));
+        return ({
+            name,
+            version,
+            tag: `${name}@${version}`,
+            path: path.replace(rootPath, '').replace(/^\//, ''),
+        });
+    });
     return cur.concat(packages);
 }, []);
 exports.config = {
