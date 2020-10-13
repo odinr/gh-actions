@@ -39,7 +39,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.pull_number = exports.sha = exports.repo = exports.owner = exports.client = exports.token = void 0;
 const core = __importStar(require("@actions/core"));
 const github_1 = require("@actions/github");
-const lerna_packages_1 = require("lerna-packages");
+const gh_util_lerna_package_1 = require("gh-util-lerna-package");
 exports.token = core.getInput('token', { required: true });
 exports.client = github_1.getOctokit(core.getInput('token', { required: true }));
 _a = core.getInput('repository', { required: true }).split('/'), exports.owner = _a[0], exports.repo = _a[1];
@@ -90,7 +90,7 @@ const getFiles = () => __awaiter(void 0, void 0, void 0, function* () {
 });
 const affectedPackages = (files) => __awaiter(void 0, void 0, void 0, function* () {
     files !== null && files !== void 0 ? files : (files = yield getFiles());
-    const findPackage = (path) => lerna_packages_1.getPackages().find(pkg => path.startsWith(pkg.path));
+    const findPackage = (path) => gh_util_lerna_package_1.getPackages().find(pkg => path.startsWith(pkg.path));
     return [...new Set(files.map(findPackage).filter(v => !!v))];
 });
 const main = () => __awaiter(void 0, void 0, void 0, function* () {

@@ -1,6 +1,7 @@
 {
   "packages": [
-    "action/*"
+    "action/*",
+    "util/*"
   ],
   "version": "1.0.0"
 }

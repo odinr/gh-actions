@@ -1,6 +1,6 @@
 import * as core from '@actions/core';
 import { getOctokit } from '@actions/github';
-import { getPackages, Package } from 'lerna-packages';
+import { getPackages, Package } from 'gh-util-lerna-package';
 
 export const token = core.getInput('token', { required: true });
 export const client = getOctokit(core.getInput('token', { required: true }));

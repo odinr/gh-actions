@@ -12,6 +12,6 @@
   "dependencies": {
     "@actions/core": "^1.2.6",
     "@actions/github": "^4.0.0",
-    "lerna-packages": "file:../../util/lerna-packages"
+    "gh-util-lerna-package": "^1.0.0"
   }
 }
