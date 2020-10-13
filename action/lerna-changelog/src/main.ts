@@ -20,7 +20,7 @@ const main = async () => {
     const tagTo = core.getInput('tag_to');
     // @ts-ignore
     const result = await new GG(config).createMarkdown({ tagFrom, tagTo });
-    core.setOutput('markdown', result);
+    core.setOutput('markdown', JSON.stringify(result));
   } catch (error) {
     core.setFailed(error.message);
   }

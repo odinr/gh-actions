@@ -44,7 +44,7 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
         const tagFrom = core.getInput('tag_from');
         const tagTo = core.getInput('tag_to');
         const result = yield new GG(config_1.config).createMarkdown({ tagFrom, tagTo });
-        core.setOutput('markdown', result);
+        core.setOutput('markdown', JSON.stringify(result));
     }
     catch (error) {
         core.setFailed(error.message);
