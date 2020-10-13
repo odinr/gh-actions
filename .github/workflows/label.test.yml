@@ -22,8 +22,8 @@ jobs:
         uses: ./action/pr-info
 
       - name: Add labels
-        uses: actions/github-script@v3
         if: ${{ steps.pr_info.outputs.pushed_labels }}
+        uses: actions/github-script@v3
         with:
           github-token: ${{ github.token }}
           script: |
