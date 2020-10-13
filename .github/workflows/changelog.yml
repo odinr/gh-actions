@@ -27,8 +27,11 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v1
 
-      - name: Create version
-        id: version
+      - name: Create release log
+        id: changelog
         uses: ./action/lerna-changelog
+
+      - name: Show log
+        run: echo $RESULT  
         env:
-          GITHUB_AUTH: ${{ github.token }}
+          RESULT: ${{ steps.changelog.markdown }}  

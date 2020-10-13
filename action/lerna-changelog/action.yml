@@ -8,10 +8,14 @@ inputs:
   repository:
     description: repo repo (used for 'version.latest')
     default: ${{ github.repository }}
-  from:
-    description: sha or tag
-  to:
-    description: sha or tag
+  tag_from:
+    description: tag from
+  tag_to:
+    description: tag to
+
+outputs:
+  markdown:
+    description: changelog in markdown format 
 
 runs:
   using: 'node12'
