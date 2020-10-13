@@ -25,7 +25,7 @@ jobs:
         with:
           next_version: ${{ github.event.inputs.next_version }}  
 
-      - run: echo ${{steps.changelog.outputs.markdown}} > changelog.md
+      - run: echo "${{steps.changelog.outputs.markdown}}" > changelog.md
       - uses: actions/upload-artifact@v2
         with:
           path: changelog.md
