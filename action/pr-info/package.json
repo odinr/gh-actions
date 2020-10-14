@@ -1,0 +1,17 @@
+{
+  "name": "gh-action-pr-info",
+  "version": "1.0.0",
+  "description": "> TODO: description",
+  "author": "odin thomas rochmann <odin.rochmann@gmail.com>",
+  "license": "ISC",
+  "main": "lib/main.js",
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1",
+    "build": "tsc -b"
+  },
+  "dependencies": {
+    "@actions/core": "^1.2.6",
+    "@actions/github": "^4.0.0",
+    "gh-util-lerna-package": "^1.0.0"
+  }
+}

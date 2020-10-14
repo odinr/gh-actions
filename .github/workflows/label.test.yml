@@ -8,15 +8,25 @@ on:
 jobs:
   label_pr:
     runs-on: ubuntu-latest
-    # needs: check_branch
-    # if: ${{ needs.check_branch.outputs.type }}
     steps:
       - name: Checkout PR
         uses: actions/checkout@v2
-        with:
-          ref: ${{ github.head_ref }}
+
       - name: Setup Node
         uses: actions/setup-node@v1
-      - name: Create version
-        id: version
-        uses: ./action/label-pr
+
+      - name: PR info
+        id: info
+        uses: ./action/pr-info
+
+      - name: Add labels
+        uses: actions/github-script@v3
+        with:
+          script: |
+            const labels = ${{ steps.info.outputs.pushed_labels }}
+            labels.length && await github.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels
+            })

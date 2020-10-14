@@ -1,0 +1,46 @@
+name: Conventional pull request info
+author: Equinor
+description: Extracts information about pull request
+branding:
+  color: blue
+  icon: git-pull-request
+  
+inputs:
+  token:
+    description: github access token (used for 'version.latest')
+    default: ${{ github.token }}
+
+  repository:
+    description: repo repo (used for 'version.latest')
+    default: ${{ github.repository }}
+
+  pull_number:
+    description: Pull request number
+    default: ${{ github.event.number }}
+
+  sha:
+    description: Since commit
+    default: ${{ github.event.before }}
+
+outputs:
+  commits: 
+    description: All commits in the pr [Array<{message[string], html_url[string], sha[string), labels[Array<string>]}>]
+  
+  files:
+    description: Array of files that has been touched [Array<string>]
+
+  packages:
+    description: Array of packages touched [Array<{name[string], version[string], tag[string], path[string]}>]
+
+  labels:
+    description: All labels for current pull number
+
+  pushed_commits: 
+    description: Commits since sha [Array<{message[string], html_url[string], sha[string), labels[Array<string>]}>]
+  
+  pushed_labels: 
+    description: labels since sha [Array<string>]
+  
+runs:
+  using: 'node12'
+  main: 'dist/main.js'

@@ -32,9 +32,10 @@ const core = __importStar(require("@actions/core"));
 const lerna_changelog_1 = require("lerna-changelog");
 const config_1 = require("./config");
 const util_lerna_packages_1 = require("util-lerna-packages");
+const packages = util_lerna_packages_1.getPackages();
 class GG extends lerna_changelog_1.Changelog {
     packageFromPath(path) {
-        const pkg = util_lerna_packages_1.packages.find(pkg => path.startsWith(pkg.path));
+        const pkg = packages.find(pkg => path.startsWith(pkg.path));
         return pkg === null || pkg === void 0 ? void 0 : pkg.tag;
     }
 }

@@ -2,7 +2,9 @@ import * as core from '@actions/core';
 
 import { Changelog } from 'lerna-changelog';
 import { config } from './config';
-import { packages } from 'util-lerna-packages';
+import { getPackages } from 'util-lerna-packages';
+
+const packages = getPackages();
 
 class GG extends Changelog {
   packageFromPath(path: string) {
