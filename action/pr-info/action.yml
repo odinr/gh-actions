@@ -1,6 +1,10 @@
-name: Conventional issue labeler
-description: Labels an issue from conventional commits
-
+name: Conventional pull request info
+author: Equinor
+description: Extracts information about pull request
+branding:
+  color: blue
+  icon: git-pull-request
+  
 inputs:
   token:
     description: github access token (used for 'version.latest')
