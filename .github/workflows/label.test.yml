@@ -22,7 +22,6 @@ jobs:
       - name: Add labels
         uses: actions/github-script@v3
         with:
-          github-token: ${{ github.token }}
           script: |
             const labels = ${{ steps.info.outputs.pushed_labels }}
             labels.length && await github.issues.addLabels({
